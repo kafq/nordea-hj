@@ -35,10 +35,8 @@ export default class APITest extends React.Component {
     
   render() {
     return (<View>
-        <Text>Getting inside as</Text>
-        <TouchableOpacity onPress={() => {console.log(this.state.accounts)}}>
-            <Text>console.log</Text>
-        </TouchableOpacity>
+        <Text>Quick API Shortcuts</Text>
+
         <TouchableOpacity onPress={() => {this.getAccountInfo()}}>
             <Text>getAccountInfo</Text>
         </TouchableOpacity>

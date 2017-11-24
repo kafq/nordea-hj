@@ -7,9 +7,11 @@ import {
   Text,
   TouchableOpacity,
   View,
+  FlatList,
 } from 'react-native';
 import APITest from '../components/APITest';
-import Accounts from '../components/Accounts';
+import AccountSingle from '../components/AccountSingle';
+import PaymentSingle from '../components/PaymentSingle';
 import Database from '../api/database';
 import { WebBrowser } from 'expo';
 
@@ -21,7 +23,8 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      accounts: []
+      accounts: [],
+      payments: []
     }
   }
   componentWillMount() {
@@ -38,11 +41,39 @@ export default class HomeScreen extends React.Component {
         })
     })
  }
+ viewPayment() {
+
+ }
+ viewAccount() {
+  console.log('Trying to view account')
+ }
   render() {
     return (
       <View style={{paddingTop: 24}}>
         <APITest/>
-        <Accounts accounts={this.state.accounts}/>
+        <Text/>
+        <Text>Accounts</Text>
+        <FlatList 
+          data={this.state.accounts}
+          renderItem={({item})=>
+            (<AccountSingle
+                onViewAccount={this.viewAccount}
+                accountNumber={item.accountNumber.value}
+                availableBalance={item.availableBalance}
+                ownerName={item.ownerName}/>)}
+        />
+        <Text/>
+        <Text>Your payments</Text>
+        <FlatList
+          data={this.state.payments}
+          renderItem={({item}) => 
+            (<PaymentSingle
+                creditorAccount={item.creditor.account.value}
+                message={item.message}
+                amount={item.amount}
+                name={item.creditor.name}
+                paymentStatus={item.paymentStatus}
+                />)}/>
       </View>
     );
   }
