@@ -14,6 +14,9 @@ export default TabNavigator(
     Home: {
       screen: HomeScreen,
     },
+    Statistics: {
+      screen: LinksScreen,
+    },
     Links: {
       screen: LinksScreen,
     },
@@ -28,6 +31,12 @@ export default TabNavigator(
         let iconName;
         switch (routeName) {
           case 'Home':
+            iconName =
+              Platform.OS === 'ios'
+                ? `ios-information-circle${focused ? '' : '-outline'}`
+                : 'md-information-circle';
+            break;
+          case 'Statistics':
             iconName =
               Platform.OS === 'ios'
                 ? `ios-information-circle${focused ? '' : '-outline'}`
