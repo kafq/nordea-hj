@@ -6,7 +6,9 @@ export default class APITest extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            assets: {}
+            assets: {},
+            accounts: [],
+            payments: []
         }
     }
     getAccountInfo = () => {
@@ -16,12 +18,41 @@ export default class APITest extends React.Component {
            })
        })
     }
+    componentWillMount() {
+        Database.listAccounts((accounts) => {
+            this.setState({accounts}, () => {
+                console.log('Done');
+                console.log(this.state.accounts);
+            })
+        })
+        Database.getAllPayments((payments) => {
+            this.setState({payments}, () => {
+                console.log('Done');
+                console.log(this.state.payments)
+            })
+        })
+    }
     
   render() {
     return (<View>
         <Text>Getting inside as</Text>
+        <TouchableOpacity onPress={() => {console.log(this.state.accounts)}}>
+            <Text>console.log</Text>
+        </TouchableOpacity>
         <TouchableOpacity onPress={() => {this.getAccountInfo()}}>
-            <Text>Send request</Text>
+            <Text>getAccountInfo</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {Database.listAccounts((accounts) => {console.log('1234')})}}>
+            <Text>List accounts</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {Database.getAccountDetailsById(this.state.accounts[0]._id)}}>
+            <Text>List account details by id</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {this.getAccountInfo(this.state.accounts[0]._id)}}>
+            <Text>List account transactions</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {Database.getAllPayments()}}>
+            <Text>Get all payments</Text>
         </TouchableOpacity>
     </View>);
   }
