@@ -9,6 +9,7 @@ export default class App extends React.Component {
     await Font.loadAsync({
       'montserrat-bold': require('./assets/fonts/Montserrat-Bold.ttf'),
       'montserrat-light': require('./assets/fonts/Montserrat-Light.ttf'),
+      'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
     });
     this.setState({ fontLoaded: true });
   }

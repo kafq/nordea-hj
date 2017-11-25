@@ -16,7 +16,8 @@ const Common = {
         fontSize: 20,
         fontFamily: Typography.titleFont,
         color: Colors.tintColor,
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        marginBottom: 8
     },
     h3: {
         fontSize: 14,
@@ -36,6 +37,13 @@ const Common = {
     whiteText: {
         color: '#fff'
     },
+    bodyText: {
+        fontFamily: Typography.bodyFont,
+        color: Colors.bodyTextColor,
+        fontSize: 15,
+        lineHeight: 23,
+        backgroundColor: 'transparent'        
+    },
     /**
      * Shadows
      */
@@ -46,6 +54,14 @@ const Common = {
         },
         shadowRadius: 6,
         shadowOpacity: 0.4
+    },
+    shadowSubtle: {
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowRadius: 4,
+        shadowOpacity: 0.1
     },
     /**
      * Elements
@@ -68,18 +84,57 @@ const Common = {
         paddingHorizontal: 16,
         paddingVertical: 8
     },
+    recurrentSingle: {
+        flex: 1,
+        backgroundColor: Colors.lightColorBlue,
+        marginRight: 6,
+        minWidth: 120,
+        marginBottom: 12,
+        paddingHorizontal: 16,
+        paddingVertical: 8
+    },
     badgeContainer: {
         backgroundColor: Colors.tintColor,
-        paddingHorizontal: 24,
+        paddingHorizontal: 16,
         paddingBottom: 64,
         paddingTop: 40,
         position: 'relative'
+    },
+    overviewContainer: {
+        backgroundColor: '#fff',
+        paddingHorizontal: 16,
+        paddingVertical: 12, 
     },
     extraBottomMargin: {
         marginBottom: 36
     },
     roundCornersMedium: {
         borderRadius: 4
+    },
+    labelTitle: {
+        fontFamily: Typography.bodyFont,
+        color: Colors.bodyTextColor,
+        fontSize: 15,
+        backgroundColor: 'transparent'   
+    },
+    labelValue: {
+        fontSize: 24,
+        fontFamily: Typography.titleFont,
+        color: Colors.tintColor
+    },
+    button: {
+        backgroundColor: Colors.activityColor,
+        color: Colors.tintColor,
+        borderRadius: 4,
+        flex: 1,
+        paddingVertical: 8,
+        alignItems: 'center'
+    },
+    buttonText: {
+        fontSize: 15,
+        fontFamily: Typography.titleFont,
+        color: Colors.tintColor,
+        backgroundColor: 'transparent'
     },
     /**
      * Layout
@@ -90,6 +145,10 @@ const Common = {
     },
     row: {
         flexDirection: 'row'
+    },
+    container: {
+        paddingHorizontal: 16,
+        flex: 1
     },
     listItem: {
         paddingHorizontal: 8,

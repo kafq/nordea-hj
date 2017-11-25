@@ -11,79 +11,21 @@ import {
   StatusBar,
 } from 'react-native';
 import APITest from '../components/APITest';
+import mockData from '../constants/data';
 import AccountSingle from '../components/AccountSingle';
 import PaymentSingle from '../components/PaymentSingle';
 import TransactionSingle from '../components/TransactionSingle';
+
+import RecurrentPayment from '../components/RecurrentPayment';
 import Database from '../api/database';
 import Common from '../constants/common';
 import Colors from '../constants/Colors';
 import Typography from '../constants/Typography';
+
+import Label from '../components/Label'
 import _ from 'lodash';
 import { WebBrowser, Font } from 'expo';
 
-const mockData = [
-{
-_type: 'DebitTransaction',
-amount: -12,
-bookingDate: "2017-11-25",
-creditorName: "Electricity Oy",
-typeDescription: "Pano",
-valueDate: "2017-11-25",
-},
-{
-  _type: 'DebitTransaction',
-  amount: -650,
-  bookingDate: "2017-11-25",
-  creditorName: "Rental Oy",
-  transactionId: "0220161114520725",
-  typeDescription: "Pano",
-  valueDate: "2017-11-25",
-},
-{
-  _type: 'DebitTransaction',
-  amount: -12,
-  bookingDate: "2017-10-22",
-  creditorName: "Attorney Consultancy",
-  transactionId: "0220161114520725",
-  typeDescription: "Pano",
-  valueDate: "2017-11-25",
-},
-{
-    _type: 'DebitTransaction',
-    amount: -12,
-    bookingDate: "2017-10-25",
-    creditorName: "Client Oy",
-    typeDescription: "Pano",
-    valueDate: "2017-10-25",
-    },
-    {
-      _type: 'DebitTransaction',
-      amount: -650,
-      bookingDate: "2017-10-25",
-      creditorName: "Client Oy",
-      transactionId: "0220161114520725",
-      typeDescription: "Pano",
-      valueDate: "2017-10-25",
-      },
-      {
-        _type: 'DebitTransaction',
-        amount: 120,
-        bookingDate: "2017-10-25",
-        creditorName: "Electricity Oy",
-        typeDescription: "Pano",
-        valueDate: "2017-10-25",
-      },
-      {
-        _type: 'DebitTransaction',
-        amount: -650,
-        bookingDate: "2017-10-25",
-        creditorName: "Rental Oy",
-        transactionId: "0220161114520725",
-        typeDescription: "Pano",
-        valueDate: "2017-10-25",
-      },
-  
-]
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     headerTitle: (<Text 
@@ -190,6 +132,15 @@ countMonthly(items){
  handleClick(screen) {
   this.props.navigation.navigate(screen, {type: 'test'})
 }
+
+renderTransactions() {
+  let transactions = [];
+  for (let i = 0; i < this.state.recurrentSpendings.length; i++) {
+    let item = this.state.recurrentSpendings[i];
+    transactions.push((<RecurrentPayment payment={item}/>))
+  }
+  return transactions;
+}
   render() {
     return (
       <ScrollView style={Common.section}>
@@ -197,7 +148,7 @@ countMonthly(items){
           backgroundColor="blue"
           barStyle="light-content"
         />
-        <View style={[Common.badgeContainer, Common.extraBottomMargin]}>
+        <View style={[Common.badgeContainer, {marginBottom: 80}]}>
           <Text style={[Common.h2, Common.whiteText]}>Accounts</Text>
           <FlatList 
             style={Common.accountsContainer}
@@ -213,34 +164,62 @@ countMonthly(items){
                   handleClick={this.handleClick.bind(this)}/>)}
           />
         </View>
-        <View>
-          <Text>{this.countMonthly(this.state.recurrentSpendings)}</Text>
+
+        <View style={[Common.container, {marginBottom: 36}]}>
+          <TouchableOpacity onPress={() => {console.log(this.state.recurrentSpendings)}}><Text style={Common.h2}>Recurrent Spendings</Text></TouchableOpacity>
+          <Label
+          style={{marginBottom: 12}}
+          title={'THIS MONTH'}
+          value={this.countMonthly(this.state.recurrentSpendings) + '€'}/>
+          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+            {this.renderTransactions()}
+          </View>
         </View>
-        <View>
-          <TouchableOpacity onPress={() => {console.log(this.state.recurrentSpendings)}}><Text>Most popular transactions</Text></TouchableOpacity>
-          <FlatList
-            data={this.state.recurrentSpendings}
-            renderItem={({item}) => (
-            <View>
-             <Text>{item.creditorName}</Text>
-             <Text>{item.amount}</Text>
-             <Text>=</Text>
-             </View>
-            )}/>
+
+        <View style={[Common.container, {marginBottom: 36}]}>
+                <Text style={Common.h2}>Invoices</Text>
+                <FlatList
+                  data={this.state.earnings}
+                  renderItem={({item}) => 
+                    (<TransactionSingle
+                      transaction={item}
+                      handleClick={this.handleClick.bind(this)}/>)
+                  }
+                />
         </View>
-        <View>
-          <TouchableOpacity onPress={() => {console.log(this.state.recurrentSpendings)}}><Text>Earnings</Text></TouchableOpacity>
-          <FlatList
-            data={this.state.earnings}
-            renderItem={({item}) => (
-            <View>
-             <Text>{item.amount}€ from {item.creditorName}</Text>
-             </View>
-            )}/>
+
+        <View style={Common.container}>
+            <View style={[Common.overviewContainer, Common.shadowSubtle]}>
+              <Text style={Common.h2}>Revenue Overview</Text>
+              <View style={[Common.row, {marginBottom: 16}]}>
+                <Label
+                  style={{marginRight: 8}}
+                  title="By the end of November"
+                  value="-240€"
+                />
+                <Label
+                  style={{marginLeft: 8}}
+                  title="In 30 days"
+                  value="+500€"
+                />
+              </View>
+              <Text style={[Common.bodyText, {marginBottom: 12}]}>
+              You need to increase sales or send more bills by 30.11. Also, you can transfer money from Idalex account to cover expenses
+              </Text>
+              <View style={Common.row}>
+                <TouchableOpacity onPress={() => {this.handleClick('InvoicesScreen')}} style={[Common.button, {marginRight: 8}]}>
+                  <Text style={Common.buttonText}>View Invoices</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[Common.button, {marginLeft: 8}]}>
+                  <Text style={Common.buttonText}>Transfer</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
         </View>
+
+
         <View style={[Common.container, {paddingHorizontal: 24}]}>
             <Text style={Common.h2}>Transactions</Text>
-            <Text/>
             <FlatList
             data={mockData}
             renderItem={({item}) => 

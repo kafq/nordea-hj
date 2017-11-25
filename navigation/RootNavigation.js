@@ -6,6 +6,7 @@ import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 import AccountScreen from '../screens/AccountScreen'
 import PaymentScreen from '../screens/PaymentScreen'
+import InvoicesScreen from '../screens/InvoicesScreen'
 
 const RootStackNavigator = StackNavigator(
   {
@@ -17,6 +18,9 @@ const RootStackNavigator = StackNavigator(
     },
     PaymentScreen: {
       screen: PaymentScreen,
+    },
+    InvoicesScreen: {
+      screen: InvoicesScreen
     },
   },
   {
