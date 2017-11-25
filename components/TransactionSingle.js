@@ -8,7 +8,7 @@ export default class TransactionSingle extends React.Component {
         <TouchableOpacity onPress={() => {this.props.handleClick('AccountScreen')}}>
             <View style={[Common.row, Common.listItem]}>
                 <View style={{width: 60}}>
-                    <Text style={Common.listLabel}>{this.props.transaction.amount}</Text>
+                    <Text style={Common.listLabel}>{this.props.transaction.amount}€</Text>
                 </View>
                 <View style={{width: 170}}>
                 <Text style={Common.listLabel}>{this.props.transaction.debtorName || this.props.transaction.creditorName}</Text>

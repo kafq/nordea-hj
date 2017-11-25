@@ -24,7 +24,7 @@ import { WebBrowser, Font } from 'expo';
 const mockData = [
 {
 _type: 'DebitTransaction',
-amount: 12,
+amount: -12,
 bookingDate: "2017-11-25",
 creditorName: "Electricity Oy",
 typeDescription: "Pano",
@@ -32,7 +32,7 @@ valueDate: "2017-11-25",
 },
 {
   _type: 'DebitTransaction',
-  amount: 650,
+  amount: -650,
   bookingDate: "2017-11-25",
   creditorName: "Rental Oy",
   transactionId: "0220161114520725",
@@ -41,7 +41,7 @@ valueDate: "2017-11-25",
 },
 {
   _type: 'DebitTransaction',
-  amount: 12,
+  amount: -12,
   bookingDate: "2017-10-22",
   creditorName: "Attorney Consultancy",
   transactionId: "0220161114520725",
@@ -50,21 +50,39 @@ valueDate: "2017-11-25",
 },
 {
     _type: 'DebitTransaction',
-    amount: 12,
+    amount: -12,
     bookingDate: "2017-10-25",
-    creditorName: "Electricity Oy",
+    creditorName: "Client Oy",
     typeDescription: "Pano",
     valueDate: "2017-10-25",
     },
     {
       _type: 'DebitTransaction',
-      amount: 650,
+      amount: -650,
       bookingDate: "2017-10-25",
-      creditorName: "Rental Oy",
+      creditorName: "Client Oy",
       transactionId: "0220161114520725",
       typeDescription: "Pano",
       valueDate: "2017-10-25",
       },
+      {
+        _type: 'DebitTransaction',
+        amount: 120,
+        bookingDate: "2017-10-25",
+        creditorName: "Electricity Oy",
+        typeDescription: "Pano",
+        valueDate: "2017-10-25",
+      },
+      {
+        _type: 'DebitTransaction',
+        amount: -650,
+        bookingDate: "2017-10-25",
+        creditorName: "Rental Oy",
+        transactionId: "0220161114520725",
+        typeDescription: "Pano",
+        valueDate: "2017-10-25",
+      },
+  
 ]
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -93,7 +111,8 @@ export default class HomeScreen extends React.Component {
       accounts: [],
       payments: [],
       transactions: [],
-      recurrentSpendings: []
+      recurrentSpendings: [],
+      earnings:[]
     }
   }
 
@@ -109,14 +128,11 @@ export default class HomeScreen extends React.Component {
     });
     await Database.getAccountTransactions('FI6593857450293470-EUR', (transactions) => 
     {this.setState({transactions})});
-    this.filterRecurrent(mockData)
+    this.filterRecurrent(mockData);
+    let timeout = setTimeout(()=>{
+      this.getEarnings(mockData);
+    }, 500)
   }
- viewPayment() {
-
- }
- viewAccount() {
-  console.log('Trying to view account')
- }
 
 checkIfRecurrent = (data, paymentName) => {
   let repetitions = []
@@ -124,7 +140,7 @@ checkIfRecurrent = (data, paymentName) => {
     let month = payment.valueDate.substring(5,7);
     let thisName = payment.creditorName;
     let day = payment.valueDate.substring(8,10);
-    if (paymentName === thisName) {
+    if (paymentName === thisName && payment.amount < 0) {
       repetitions.push(month);
     }
   })
@@ -149,6 +165,19 @@ filterRecurrent = (data) => {
     recurrentSpendings: _.uniqBy(filtered, 'creditorName')
   })
 }
+
+getEarnings = (operations) => {
+  let earnings = mockData.filter((item) => {
+    return item.amount > 0
+  })
+
+  console.log('__________')
+  console.log(earnings);
+  console.log('__________')
+  this.setState({earnings})
+  
+} 
+
 countMonthly(items){
   console.log(items);
   let sum = 0;
@@ -157,6 +186,7 @@ countMonthly(items){
   })
   return sum;
 }
+
  handleClick(screen) {
   this.props.navigation.navigate(screen, {type: 'test'})
 }
@@ -194,6 +224,17 @@ countMonthly(items){
             <View>
              <Text>{item.creditorName}</Text>
              <Text>{item.amount}</Text>
+             <Text>=</Text>
+             </View>
+            )}/>
+        </View>
+        <View>
+          <TouchableOpacity onPress={() => {console.log(this.state.recurrentSpendings)}}><Text>Earnings</Text></TouchableOpacity>
+          <FlatList
+            data={this.state.earnings}
+            renderItem={({item}) => (
+            <View>
+             <Text>{item.amount}€ from {item.creditorName}</Text>
              </View>
             )}/>
         </View>
@@ -216,7 +257,7 @@ countMonthly(items){
               (<PaymentSingle
                   creditorAccount={item.creditor.account.value}
                   message={item.message}
-                  amount={item.amount}
+                  amount={item.amount + '€'}
                   name={item.creditor.name}
                   paymentStatus={item.paymentStatus}
                   handleClick={this.handleClick.bind(this)}/>)}/>
