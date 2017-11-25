@@ -63,5 +63,17 @@ export default TabNavigator(
     tabBarPosition: 'bottom',
     animationEnabled: false,
     swipeEnabled: false,
-  }
+    tabBarOptions: {
+      activeTintColor: Colors.lightColorPeach,
+      style: {
+        backgroundColor: Colors.tintColor,
+        shadowOpacity: 0.4,
+        shadowOffset: {
+          width: 0,
+          height: -2,
+        },
+        shadowRadius: 6
+      }
+    },
+  },
 );

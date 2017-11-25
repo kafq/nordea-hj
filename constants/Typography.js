@@ -1,5 +1,6 @@
 const Typography = {
     titleFont: 'montserrat-bold',
-    bodyFont: ''
+    bodyFont: '',
+    numberFont: 'montserrat-light'
 }
 module.exports = Typography;
