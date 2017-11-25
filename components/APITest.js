@@ -8,7 +8,8 @@ export default class APITest extends React.Component {
         this.state = {
             assets: {},
             accounts: [],
-            payments: []
+            payments: [],
+            recurrentTransactions: []
         }
     }
     getAccountInfo = () => {
@@ -22,13 +23,11 @@ export default class APITest extends React.Component {
         Database.listAccounts((accounts) => {
             this.setState({accounts}, () => {
                 console.log('Done');
-                console.log(this.state.accounts);
             })
         })
         Database.getAllPayments((payments) => {
             this.setState({payments}, () => {
                 console.log('Done');
-                console.log(this.state.payments)
             })
         })
     }

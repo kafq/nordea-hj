@@ -18,10 +18,54 @@ import Database from '../api/database';
 import Common from '../constants/common';
 import Colors from '../constants/Colors';
 import Typography from '../constants/Typography';
-
+import _ from 'lodash';
 import { WebBrowser, Font } from 'expo';
 
-
+const mockData = [
+{
+_type: 'DebitTransaction',
+amount: 12,
+bookingDate: "2017-11-25",
+creditorName: "Electricity Oy",
+typeDescription: "Pano",
+valueDate: "2017-11-25",
+},
+{
+  _type: 'DebitTransaction',
+  amount: 650,
+  bookingDate: "2017-11-25",
+  creditorName: "Rental Oy",
+  transactionId: "0220161114520725",
+  typeDescription: "Pano",
+  valueDate: "2017-11-25",
+},
+{
+  _type: 'DebitTransaction',
+  amount: 12,
+  bookingDate: "2017-10-22",
+  creditorName: "Attorney Consultancy",
+  transactionId: "0220161114520725",
+  typeDescription: "Pano",
+  valueDate: "2017-11-25",
+},
+{
+    _type: 'DebitTransaction',
+    amount: 12,
+    bookingDate: "2017-10-25",
+    creditorName: "Electricity Oy",
+    typeDescription: "Pano",
+    valueDate: "2017-10-25",
+    },
+    {
+      _type: 'DebitTransaction',
+      amount: 650,
+      bookingDate: "2017-10-25",
+      creditorName: "Rental Oy",
+      transactionId: "0220161114520725",
+      typeDescription: "Pano",
+      valueDate: "2017-10-25",
+      },
+]
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     headerTitle: (<Text 
@@ -49,23 +93,23 @@ export default class HomeScreen extends React.Component {
       accounts: [],
       payments: [],
       transactions: [],
+      recurrentSpendings: []
     }
   }
+
   async componentWillMount() {
     await Database.listAccounts((accounts) => {
         this.setState({accounts}, () => {
-            console.log('Done');
-            console.log(this.state.accounts);
         })
     });
     Database.getAllPayments((payments) => {
         this.setState({payments}, () => {
-            console.log('Done');
-            console.log(this.state.payments)
+
         })
     });
     await Database.getAccountTransactions('FI6593857450293470-EUR', (transactions) => 
     {this.setState({transactions})});
+    this.filterRecurrent(mockData)
   }
  viewPayment() {
 
@@ -74,6 +118,45 @@ export default class HomeScreen extends React.Component {
   console.log('Trying to view account')
  }
 
+checkIfRecurrent = (data, paymentName) => {
+  let repetitions = []
+  data.forEach((payment) => {
+    let month = payment.valueDate.substring(5,7);
+    let thisName = payment.creditorName;
+    let day = payment.valueDate.substring(8,10);
+    if (paymentName === thisName) {
+      repetitions.push(month);
+    }
+  })
+  if (repetitions.length > 1){
+    console.log('repetetive')
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+filterRecurrent = (data) => {
+  let filtered = data.filter((action) => {
+      return this.checkIfRecurrent(data, action.creditorName)
+    })
+  console.log('______________')
+  console.log(_.uniqBy(filtered, 'creditorName'))
+  console.log('______________')
+  
+  this.setState({
+    recurrentSpendings: _.uniqBy(filtered, 'creditorName')
+  })
+}
+countMonthly(items){
+  console.log(items);
+  let sum = 0;
+  items.forEach((item) => {
+    sum += parseInt(item.amount)
+  })
+  return sum;
+}
  handleClick(screen) {
   this.props.navigation.navigate(screen, {type: 'test'})
 }
@@ -100,12 +183,25 @@ export default class HomeScreen extends React.Component {
                   handleClick={this.handleClick.bind(this)}/>)}
           />
         </View>
-        
+        <View>
+          <Text>{this.countMonthly(this.state.recurrentSpendings)}</Text>
+        </View>
+        <View>
+          <TouchableOpacity onPress={() => {console.log(this.state.recurrentSpendings)}}><Text>Most popular transactions</Text></TouchableOpacity>
+          <FlatList
+            data={this.state.recurrentSpendings}
+            renderItem={({item}) => (
+            <View>
+             <Text>{item.creditorName}</Text>
+             <Text>{item.amount}</Text>
+             </View>
+            )}/>
+        </View>
         <View style={[Common.container, {paddingHorizontal: 24}]}>
             <Text style={Common.h2}>Transactions</Text>
             <Text/>
             <FlatList
-            data={this.state.transactions}
+            data={mockData}
             renderItem={({item}) => 
               (<TransactionSingle
                   transaction={item}

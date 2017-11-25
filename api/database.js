@@ -20,7 +20,6 @@ export default class Database {
         }).then((res) => {
             return res.json();
         }).then((json) => {
-            console.log(json);
             callback(json)
         })
     }
@@ -38,7 +37,6 @@ export default class Database {
         }).then((res) => {
             return res.json();
         }).then((json) => {
-            console.log(json);
             callback(json.response.accounts)
         })
     }
@@ -56,7 +54,7 @@ export default class Database {
         }).then((res) => {
             return res.json();
         }).then((json) => {
-            console.log(json);
+            //console.log(json);
         })
     }
     static getAccountTransactions(id, callback, fromDate, toDate, language, continuationKey) {
@@ -73,7 +71,7 @@ export default class Database {
         }).then((res) => {
             return res.json();
         }).then((json) => {
-            console.log(json);
+            //console.log(json);
             callback(json.response.transactions)
         })
     }
@@ -93,7 +91,7 @@ export default class Database {
         }).then((res) => {
             return res.json();
         }).then((json) => {
-            console.log(json);
+            //console.log(json);
             callback(json.response.payments)
         })
     }
