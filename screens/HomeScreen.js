@@ -47,6 +47,10 @@ export default class HomeScreen extends React.Component {
  viewAccount() {
   console.log('Trying to view account')
  }
+
+ handleClick(screen) {
+  this.props.navigation.navigate(screen, {type: 'test'})
+}
   render() {
     return (
       <View style={{paddingTop: 24}}>
@@ -60,7 +64,8 @@ export default class HomeScreen extends React.Component {
                 onViewAccount={this.viewAccount}
                 accountNumber={item.accountNumber.value}
                 availableBalance={item.availableBalance}
-                ownerName={item.ownerName}/>)}
+                ownerName={item.ownerName}
+                handleClick={this.handleClick.bind(this)}/>)}
         />
         <Text/>
         <Text>Your payments</Text>
@@ -73,7 +78,7 @@ export default class HomeScreen extends React.Component {
                 amount={item.amount}
                 name={item.creditor.name}
                 paymentStatus={item.paymentStatus}
-                />)}/>
+                handleClick={this.handleClick.bind(this)}/>)}/>
       </View>
     );
   }

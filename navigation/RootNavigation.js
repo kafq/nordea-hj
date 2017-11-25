@@ -4,11 +4,19 @@ import { StackNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
+import AccountScreen from '../screens/AccountScreen'
+import PaymentScreen from '../screens/PaymentScreen'
 
 const RootStackNavigator = StackNavigator(
   {
     Main: {
       screen: MainTabNavigator,
+    },
+    AccountScreen: {
+      screen: AccountScreen,
+    },
+    PaymentScreen: {
+      screen: PaymentScreen,
     },
   },
   {
