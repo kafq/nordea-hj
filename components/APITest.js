@@ -46,7 +46,7 @@ export default class APITest extends React.Component {
         <TouchableOpacity onPress={() => {Database.getAccountDetailsById(this.state.accounts[0]._id)}}>
             <Text>List account details by id</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {this.getAccountInfo(this.state.accounts[0]._id)}}>
+        <TouchableOpacity onPress={() => {Database.getAccountTransactions(this.state.accounts[0]._id)}}>
             <Text>List account transactions</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {Database.getAllPayments()}}>

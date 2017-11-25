@@ -13,7 +13,8 @@ import APITest from '../components/APITest';
 import AccountSingle from '../components/AccountSingle';
 import PaymentSingle from '../components/PaymentSingle';
 import Database from '../api/database';
-import { WebBrowser } from 'expo';
+import Common from '../constants/common';
+import { WebBrowser, Font } from 'expo';
 
 
 export default class HomeScreen extends React.Component {
@@ -52,8 +53,9 @@ export default class HomeScreen extends React.Component {
       <View style={{paddingTop: 24}}>
         <APITest/>
         <Text/>
-        <Text>Accounts</Text>
+        <Text style={Common.h1}>Accounts</Text>
         <FlatList 
+          horizontal
           data={this.state.accounts}
           renderItem={({item})=>
             (<AccountSingle

@@ -5,12 +5,20 @@ import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
 
 export default class App extends React.Component {
+  async componentDidMount() {
+    await Font.loadAsync({
+      'montserrat-bold': require('./assets/fonts/Montserrat-Bold.ttf'),
+    });
+    this.setState({ fontLoaded: true });
+  }
+
   state = {
     isLoadingComplete: false,
+    fontLoaded: false,
   };
 
   render() {
-    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen || !this.state.fontLoaded) {
       return (
         <AppLoading
           startAsync={this._loadResourcesAsync}
