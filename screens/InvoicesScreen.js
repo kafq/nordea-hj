@@ -1,8 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, FlatList, } from "react-native";
 import Typography from '../constants/Typography';
 import Colors from '../constants/Colors';
+import Common from '../constants/common';
 import Database from '../api/database';
+import mockData from '../constants/data';
+import TransactionSingle from '../components/TransactionSingle'
 
 class InvoicesScreen extends Component {
     static navigationOptions =  {
@@ -31,16 +34,32 @@ class InvoicesScreen extends Component {
             transactions: []
         }
     }
-  componentWillMount() {
+  async componentWillMount() {
     await Database.getAccountTransactions('FI6593857450293470-EUR', (transactions) => 
     {this.setState({transactions})});
+  }
+  retrieveInvoices() {
+      let invoices = mockData.filter((item) => {
+          return item.amount > 0
+      }) 
+      return invoices;
+  }
+  handleClick() {
+      console.log('12345')
   }
   render() {
     const { params } = this.props.navigation.state
     return (
-        <View>
-            <Text>{params.type}</Text>
-      </View>
+
+            <View style={[Common.container, {paddingHorizontal: 24}]}>
+                <Text style={Common.h2}>Transactions</Text>
+                <FlatList
+                data={this.retrieveInvoices()}
+                renderItem={({item}) => 
+                (<TransactionSingle
+                    transaction={item}
+                    handleClick={this.handleClick.bind(this)}/>)}/>
+            </View>
     );
   }
 }
