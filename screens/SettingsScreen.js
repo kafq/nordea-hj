@@ -1,5 +1,7 @@
 import React from 'react';
-import { ExpoConfigView } from '@expo/samples';
+import {Text, View} from 'react-native';
+import Common from '../constants/common';
+import APITest from '../components/APITest';
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
@@ -7,8 +9,12 @@ export default class SettingsScreen extends React.Component {
   };
 
   render() {
-    /* Go ahead and delete ExpoConfigView and replace it with your
-     * content, we just wanted to give you a quick view of your config */
-    return <ExpoConfigView />;
+    return (
+      <View>
+        <Text style={Common.h2}>Welcome to the real world</Text>
+        <Text style={Common.bodyText}>All the information displayed here is retrieved from Nordea's API</Text>
+        <APITest/>
+      </View>
+    )
   }
 }

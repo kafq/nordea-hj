@@ -5,6 +5,7 @@ import Colors from '../constants/Colors';
 import Common from '../constants/common';
 import Database from '../api/database';
 import mockData from '../constants/data';
+import Label from '../components/Label';
 import TransactionSingle from '../components/TransactionSingle'
 
 class InvoicesScreen extends Component {
@@ -52,7 +53,10 @@ class InvoicesScreen extends Component {
     return (
 
             <View style={[Common.container, {paddingHorizontal: 24}]}>
-                <Text style={Common.h2}>Transactions</Text>
+                <Text style={Common.h2}>Invoices</Text>
+                <Label
+                    title={'Totally'}
+                    value={mockData.length}/>
                 <FlatList
                 data={this.retrieveInvoices()}
                 renderItem={({item}) => 
