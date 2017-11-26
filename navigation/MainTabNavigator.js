@@ -6,6 +6,7 @@ import Colors from '../constants/Colors';
 
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
+import InvoicesScreen from '../screens/InvoicesScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
 export default TabNavigator(
@@ -17,7 +18,7 @@ export default TabNavigator(
       screen: LinksScreen,
     },
     Links: {
-      screen: LinksScreen,
+      screen: InvoicesScreen,
     },
     Settings: {
       screen: SettingsScreen,

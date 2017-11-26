@@ -135,6 +135,8 @@ const Common = {
         borderRadius: 4,
         flex: 1,
         maxHeight: 37,
+        height: 37,
+        marginBottom: 8,
         paddingVertical: 8,
         alignItems: 'center'
     },

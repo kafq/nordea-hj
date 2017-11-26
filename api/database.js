@@ -56,7 +56,7 @@ export default class Database {
             callback(json.response.accounts)
         })
     }
-    static getAccountDetailsById(id) {
+    static getAccountDetailsById(id,callback) {
         fetch(`https://api.hackathon.developer.nordeaopenbanking.com/v2/accounts/${id}`, {
             method: 'get',
             headers: {
@@ -70,7 +70,7 @@ export default class Database {
         }).then((res) => {
             return res.json();
         }).then((json) => {
-            //console.log(json);
+            callback(json);
         })
     }
     static getAccountTransactions(id, callback, fromDate, toDate, language, continuationKey) {

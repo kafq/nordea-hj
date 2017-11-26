@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, TouchableHighlight } from 'react-native';
 import Database from '../api/database';
+import Common from '../constants/common';
 
 export default class APITest extends React.Component {
     constructor(props) {
@@ -13,11 +14,7 @@ export default class APITest extends React.Component {
         }
     }
     getAccountInfo = () => {
-       Database.listUserAssets((assets) => {
-           this.setState({
-               assets
-           })
-       })
+       Database.listUserAssets((res) => {this.setState({res})})
     }
     componentWillMount() {
         Database.listAccounts((accounts) => {
@@ -33,24 +30,24 @@ export default class APITest extends React.Component {
     }
     
   render() {
-    return (<View>
-        <Text>Quick API Shortcuts</Text>
+    return (<View style={{flex: 1}}>
+        {/* <TouchableOpacity style={Common.button} onPress={() => {this.getAccountInfo()}}>
+            <Text style={Common.buttonText}>getAccountInfo</Text>
+        </TouchableOpacity> */}
+        <TouchableOpacity style={Common.button} onPress={() => {Database.listAccounts((res) => {this.setState({res})})}}>
+            <Text style={Common.buttonText}>List accounts</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={Common.button} onPress={() => {Database.getAccountDetailsById(this.state.accounts[0]._id, (res) => {this.setState({res})})}}>
+            <Text style={Common.buttonText}>List account details by id</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={Common.button} onPress={() => {Database.getAccountTransactions(this.state.accounts[0]._id, (res) => {this.setState({res})})}}>
+            <Text style={Common.buttonText}>List account transactions</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={Common.button} onPress={() => {Database.getAllPayments((res) => {this.setState({res})})}}>
+            <Text style={Common.buttonText}>Get all payments</Text>
+        </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => {this.getAccountInfo()}}>
-            <Text>getAccountInfo</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {Database.listAccounts((accounts) => {console.log('1234')})}}>
-            <Text>List accounts</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {Database.getAccountDetailsById(this.state.accounts[0]._id)}}>
-            <Text>List account details by id</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {Database.getAccountTransactions(this.state.accounts[0]._id)}}>
-            <Text>List account transactions</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {Database.getAllPayments()}}>
-            <Text>Get all payments</Text>
-        </TouchableOpacity>
+        <Text style={Common.bodyText}>{JSON.stringify(this.state.res)}</Text>
     </View>);
   }
 }
