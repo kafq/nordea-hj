@@ -53,8 +53,10 @@ class InvoicesScreen extends Component {
     return (
 
             <View style={[Common.container, {paddingHorizontal: 24}]}>
+                <Text/>
                 <Text style={Common.h2}>Invoices</Text>
                 <Text style={Common.bodyText}>Below is the list of invoices you have sent to your clients. You can send more invoices, estimated payment date will affect the analysis of your company revenue</Text>
+                <Text/>
                 <Label
                     style={{marginBottom: 12}}
                     title={'Totally'}

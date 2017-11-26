@@ -167,7 +167,8 @@ const Common = {
     },
     container: {
         paddingHorizontal: 16,
-        flex: 1
+        flex: 1,
+        backgroundColor: '#fff'
     },
     listItem: {
         paddingHorizontal: 8,
