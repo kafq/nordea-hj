@@ -1,6 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Platform, Image } from 'react-native';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
 
 import Colors from '../constants/Colors';
@@ -31,31 +30,26 @@ export default TabNavigator(
         let iconName;
         switch (routeName) {
           case 'Home':
-            iconName =
-              Platform.OS === 'ios'
-                ? `ios-information-circle${focused ? '' : '-outline'}`
-                : 'md-information-circle';
+          iconName = require('../assets/images/tab1.png'),
+          focusedIconName =  require('../assets/images/1.png')
             break;
           case 'Statistics':
-            iconName =
-              Platform.OS === 'ios'
-                ? `ios-information-circle${focused ? '' : '-outline'}`
-                : 'md-information-circle';
+          iconName = require('../assets/images/tab2.png'),
+          focusedIconName =  require('../assets/images/2.png')
             break;
           case 'Links':
-            iconName = Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link';
+          iconName = require('../assets/images/tab3.png'),
+          focusedIconName =  require('../assets/images/3.png')
             break;
           case 'Settings':
-            iconName =
-              Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options';
+          iconName = require('../assets/images/tab4.png'),
+          focusedIconName =  require('../assets/images/4.png')
         }
         return (
-          <Ionicons
-            name={iconName}
-            size={28}
-            style={{ marginBottom: -3 }}
-            color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
-          />
+          <Image
+          style={{ width: 23, height: 23, resizeMode: 'contain' }}
+          source={focused ? iconName : focusedIconName }
+        />
         );
       },
     }),
@@ -64,6 +58,7 @@ export default TabNavigator(
     animationEnabled: false,
     swipeEnabled: false,
     tabBarOptions: {
+      showLabel: false,
       activeTintColor: Colors.lightColorPeach,
       style: {
         backgroundColor: Colors.tintColor,
