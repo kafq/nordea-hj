@@ -3,9 +3,10 @@ const lightColorPeach = '#FAE9E1';
 const lightColorBlue = '#E6F2FF';
 const activityColor = '#40BFA3'
 const bodyTextColor =  '#46506A';
-
+const dangerColor = '#D10000';
 export default {
   tintColor,
+  dangerColor,
   bodyTextColor,
   lightColorPeach,
   activityColor,

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, } from "react-native";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import Typography from '../constants/Typography';
 import Colors from '../constants/Colors';
 import Common from '../constants/common';
@@ -45,8 +45,8 @@ class InvoicesScreen extends Component {
       }) 
       return invoices;
   }
-  handleClick() {
-      console.log('12345')
+  navigate(screen) {
+      this.props.navigation.navigate(screen, { type: "test" });
   }
   render() {
     const { params } = this.props.navigation.state
@@ -54,15 +54,18 @@ class InvoicesScreen extends Component {
 
             <View style={[Common.container, {paddingHorizontal: 24}]}>
                 <Text style={Common.h2}>Invoices</Text>
+                <Text style={Common.bodyText}>Below is the list of invoices you have sent to your clients. You can send more invoices, estimated payment date will affect the analysis of your company revenue</Text>
                 <Label
+                    style={{marginBottom: 12}}
                     title={'Totally'}
                     value={mockData.length}/>
+                <TouchableOpacity style={Common.button} onPress={() => {this.navigate('SendInvoiceScreen')}}><Text style={Common.buttonText}>Send invoice</Text></TouchableOpacity>
                 <FlatList
                 data={this.retrieveInvoices()}
                 renderItem={({item}) => 
                 (<TransactionSingle
                     transaction={item}
-                    handleClick={this.handleClick.bind(this)}/>)}/>
+                    handleClick={this.navigate.bind(this)}/>)}/>
             </View>
     );
   }

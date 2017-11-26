@@ -3,8 +3,14 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
+import Database from './api/database';
 
 export default class App extends React.Component {
+  componentWillMount() {
+    Database.getAccessToken((token) => {
+      console.log(token)
+    })
+  }
   async componentDidMount() {
     console.disableYellowBox = true;
     await Font.loadAsync({

@@ -7,6 +7,7 @@ import registerForPushNotificationsAsync from '../api/registerForPushNotificatio
 import AccountScreen from '../screens/AccountScreen'
 import PaymentScreen from '../screens/PaymentScreen'
 import InvoicesScreen from '../screens/InvoicesScreen'
+import SendInvoiceScreen from '../screens/SendInvoiceScreen'
 
 const RootStackNavigator = StackNavigator(
   {
@@ -22,6 +23,9 @@ const RootStackNavigator = StackNavigator(
     InvoicesScreen: {
       screen: InvoicesScreen
     },
+    SendInvoiceScreen: {
+      screen: SendInvoiceScreen
+    }
   },
   {
     navigationOptions: () => ({

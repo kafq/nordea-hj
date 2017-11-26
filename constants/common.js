@@ -44,6 +44,13 @@ const Common = {
         lineHeight: 23,
         backgroundColor: 'transparent'        
     },
+    bodyTextError: {
+        fontFamily: Typography.bodyFont,
+        color: Colors.dangerColor,
+        fontSize: 15,
+        lineHeight: 23,
+        backgroundColor: 'transparent'        
+    },
     /**
      * Shadows
      */
@@ -127,6 +134,16 @@ const Common = {
         color: Colors.tintColor,
         borderRadius: 4,
         flex: 1,
+        maxHeight: 37,
+        paddingVertical: 8,
+        alignItems: 'center'
+    },
+    buttonDisabled: {
+        backgroundColor: '#CDCDCD',
+        color: Colors.tintColor,
+        borderRadius: 4,
+        flex: 1,
+        maxHeight: 37,
         paddingVertical: 8,
         alignItems: 'center'
     },
