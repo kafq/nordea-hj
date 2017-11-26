@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   View,
   FlatList,
-  StatusBar
+  StatusBar,
+  Button
 } from "react-native";
 import APITest from "../components/APITest";
 import mockData from "../constants/data";
@@ -25,6 +26,7 @@ import Typography from "../constants/Typography";
 import Label from "../components/Label";
 import _ from "lodash";
 import { WebBrowser, Font } from "expo";
+import moment from 'moment'
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -79,9 +81,7 @@ export default class HomeScreen extends React.Component {
       }
     );
     this.filterRecurrent(mockData);
-    let timeout = setTimeout(() => {
       this.getEarnings(mockData);
-    }, 500);
   }
 
   checkIfRecurrent = (data, paymentName) => {
@@ -119,7 +119,6 @@ export default class HomeScreen extends React.Component {
   };
 
   countMonthly(items) {
-    console.log(items);
     let sum = 0;
     items.forEach(item => {
       sum += parseInt(item.amount);
@@ -129,6 +128,27 @@ export default class HomeScreen extends React.Component {
 
   handleClick(screen) {
     this.props.navigation.navigate(screen, { type: "test" });
+  }
+
+  filterInvoice(condition) {
+    let earnings = mockData.filter(item => {return item.amount > 0});
+    let filteredInvoices = earnings.filter((earning) => {
+      switch (condition) {
+        case 'active':
+            if (moment(earning.bookingDate).format("MM") === moment().format('MM')) {
+              return moment(earning.bookingDate).format("DD") > moment().format('DD')
+            } else {
+              return moment(earning.bookingDate).format("MM") > moment().format('MM')
+            }
+          break;
+        case 'all':
+              return true
+          break;
+        case 'late':
+              return Math.abs(moment(earning.bookingDate).format("DDD") - moment().dayOfYear()) > 14
+      }
+    })
+    this.setState({ earnings: filteredInvoices })
   }
 
   renderTransactions() {
@@ -182,6 +202,17 @@ export default class HomeScreen extends React.Component {
 
         <View style={[Common.container, { marginBottom: 36 }]}>
           <Text style={Common.h2}>Invoices</Text>
+          <View style={Common.row}>
+          <Button
+          onPress={() => this.filterInvoice('all')}
+          title="All" />
+          <Button
+          onPress={() => this.filterInvoice('active')}
+          title="Active" />
+          <Button
+          onPress={() => this.filterInvoice('late')}
+          title="Late" />
+          </View>
           <FlatList
             data={this.state.earnings}
             renderItem={({ item }) => (
@@ -230,6 +261,7 @@ export default class HomeScreen extends React.Component {
 
         <View style={[Common.container, { paddingHorizontal: 24 }]}>
           <Text style={Common.h2}>Transactions</Text>
+          {this.state.earnings ? 
           <FlatList
             data={mockData}
             renderItem={({ item }) => (
@@ -239,6 +271,11 @@ export default class HomeScreen extends React.Component {
               />
             )}
           />
+          : <View style={Common.container}>
+              <Text style={[Common.bodyText, { marginBottom: 12 }]}>
+                You do not have active incoices
+              </Text>
+            </View>}
         </View>
         <View style={Common.section}>
           <APITest />
